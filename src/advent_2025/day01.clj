@@ -11,19 +11,18 @@
        )
 
 (defn- move
-       [position movement]
+       [position {:keys [direction distance]}]
        (rem (cond
-                  (= (:direction movement) "R") (+ position (:distance movement))
-                  :else (+ (- position (:distance movement)) 100) ; force it to be positive
+                  (= direction "R") (+ position distance)
+                  :else (+ (- position distance) 100) ; force it to be positive
                   ) 100)
        )
 
 (defn day01-part1
       [file-name]
-      (def movements (prepare-movements file-name))
-      (let [positions (reductions move 50 movements)
-            zero-count (count (filter zero? positions))]
-           zero-count
+      (->> (prepare-movements file-name)
+           (reductions move 50)
+           (filter zero?)
+           (count)
            )
       )
-
