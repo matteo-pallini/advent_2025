@@ -19,11 +19,11 @@
        )
 
 (defn day01-a-main
-      []
-      (def movements (prepare-movements "data/day01.txt"))
+      [file-name]
+      (def movements (prepare-movements file-name))
       (let [positions (reductions move 50 movements)
             zero-count (count (filter zero? positions))]
-           (println "\tDay 1 part 1: Times position hit 0:" zero-count)
+           zero-count
            )
       )
 
