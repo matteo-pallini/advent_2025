@@ -18,7 +18,7 @@
                   ) 100)
        )
 
-(defn day01-a-main
+(defn day01-part1
       [file-name]
       (def movements (prepare-movements file-name))
       (let [positions (reductions move 50 movements)
