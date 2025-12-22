@@ -11,3 +11,8 @@
 (deftest day01-part2-test
          (testing "day01 part2 works on sample input"
                   (is (= (day01-part2 "data/day01/test_input.txt") 6))))
+
+
+(deftest day02-part1-test
+         (testing "day02 part1 works on sample input"
+                  (is (= (day01-part2 "data/day02/test_input.txt") 6))))
