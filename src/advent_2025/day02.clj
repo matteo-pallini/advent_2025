@@ -6,30 +6,35 @@
 (defn- prepare-ranges
        [file-name]
        (map
-         #(let [[a b] (str/split % #"-")] (->IdRange (bigint a) (bigint b)))
+         #(let [[a b] (str/split % #"-")] (->IdRange (parse-long a) (parse-long b)))
          (str/split (slurp file-name) #","))
        )
+
+
+(defn even-length-palindrome?
+      [s]
+      (let [n (count s)
+            h (quot n 2)]
+           (and (even? n)
+                (= (subs s 0 h)
+                   (subs s h n)))))
+
 
 (defn find-palindromes-even-number-of-letters
       [{:keys [first-id last-id]}]
       (->> (range first-id (inc last-id))
            (map str)
-           (filter #(even? (count %)))
-           (filter #(let [len (count %)
-                          first-half (subs % 0 (/ len 2))
-                          second-half (subs % (/ len 2) len)]
-                      (= first-half second-half)))
-            (map bigint)
+           (filter even-length-palindrome?)
+           (map bigint)
       )
       )
 
 (defn find-invalid-ids
   [invalid-ids-identifier file-name]
-  (def final-vals (->> (prepare-ranges file-name)
-                       (map invalid-ids-identifier)
-                       (filter not-empty)
-                       ))
-  (transduce cat + final-vals)
+  (->> (prepare-ranges file-name)
+       (mapcat invalid-ids-identifier)
+       (reduce +)
+                       )
   )
 
 (def day02-part1 (partial find-invalid-ids find-palindromes-even-number-of-letters))
